@@ -26,7 +26,7 @@ class Reservation
 
     #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Route $route = null;
+    private ?Ride $ride = null;
 
     public function __construct()
     {
@@ -89,14 +89,14 @@ class Reservation
         return $this;
     }
 
-    public function getRoute(): ?Route
+    public function getRide(): ?Ride
     {
-        return $this->route;
+        return $this->ride;
     }
 
-    public function setRoute(?Route $route): self
+    public function setRide(?Ride $ride): self
     {
-        $this->route = $route;
+        $this->ride = $ride;
 
         return $this;
     }

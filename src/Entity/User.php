@@ -36,8 +36,8 @@ class User
     #[ORM\ManyToMany(targetEntity: Message::class, inversedBy: 'users')]
     private Collection $message;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Route::class)]
-    private Collection $route;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ride::class)]
+    private Collection $ride;
 
     #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'users')]
     private Collection $reservation;
@@ -45,7 +45,7 @@ class User
     public function __construct()
     {
         $this->message = new ArrayCollection();
-        $this->route = new ArrayCollection();
+        $this->ride = new ArrayCollection();
         $this->reservation = new ArrayCollection();
     }
 
@@ -151,29 +151,29 @@ class User
     }
 
     /**
-     * @return Collection<int, Route>
+     * @return Collection<int, Ride>
      */
-    public function getRoute(): Collection
+    public function getRide(): Collection
     {
-        return $this->route;
+        return $this->ride;
     }
 
-    public function addRoute(Route $route): self
+    public function addRide(Ride $ride): self
     {
-        if (!$this->route->contains($route)) {
-            $this->route->add($route);
-            $route->setUser($this);
+        if (!$this->ride->contains($ride)) {
+            $this->ride->add($ride);
+            $ride->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeRoute(Route $route): self
+    public function removeRide(Ride $ride): self
     {
-        if ($this->route->removeElement($route)) {
+        if ($this->ride->removeElement($ride)) {
             // set the owning side to null (unless already changed)
-            if ($route->getUser() === $this) {
-                $route->setUser(null);
+            if ($ride->getUser() === $this) {
+                $ride->setUser(null);
             }
         }
 
