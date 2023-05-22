@@ -24,6 +24,10 @@ class Reservation
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'reservation')]
     private Collection $users;
 
+    #[ORM\ManyToOne(inversedBy: 'reservation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Route $route = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -81,6 +85,18 @@ class Reservation
         if ($this->users->removeElement($user)) {
             $user->removeReservation($this);
         }
+
+        return $this;
+    }
+
+    public function getRoute(): ?Route
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?Route $route): self
+    {
+        $this->route = $route;
 
         return $this;
     }
