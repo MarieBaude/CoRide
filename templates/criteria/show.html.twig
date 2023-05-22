@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Criteria{% endblock %}
+
+{% block body %}
+    <h1>Criteria</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ criterion.id }}</td>
+            </tr>
+            <tr>
+                <th>Smoking</th>
+                <td>{{ criterion.smoking ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Animals</th>
+                <td>{{ criterion.animals ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>WomenOnly</th>
+                <td>{{ criterion.womenOnly ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>ManOnly</th>
+                <td>{{ criterion.manOnly ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_criteria_index') }}">back to list</a>
+
+    <a href="{{ path('app_criteria_edit', {'id': criterion.id}) }}">edit</a>
+
+    {{ include('criteria/_delete_form.html.twig') }}
+{% endblock %}
