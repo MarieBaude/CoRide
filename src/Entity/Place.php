@@ -24,12 +24,12 @@ class Place
     #[ORM\Column]
     private ?int $cp = null;
 
-    #[ORM\OneToMany(mappedBy: 'fromPlace', targetEntity: Route::class)]
-    private Collection $routes;
+    #[ORM\OneToMany(mappedBy: 'fromPlace', targetEntity: Ride::class)]
+    private Collection $rides;
 
     public function __construct()
     {
-        $this->routes = new ArrayCollection();
+        $this->rides = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,29 +74,29 @@ class Place
     }
 
     /**
-     * @return Collection<int, Route>
+     * @return Collection<int, Ride>
      */
-    public function getRoutes(): Collection
+    public function getRides(): Collection
     {
-        return $this->routes;
+        return $this->rides;
     }
 
-    public function addRoute(Route $route): self
+    public function addRide(Ride $ride): self
     {
-        if (!$this->routes->contains($route)) {
-            $this->routes->add($route);
-            $route->setFromPlace($this);
+        if (!$this->rides->contains($ride)) {
+            $this->rides->add($ride);
+            $ride->setFromPlace($this);
         }
 
         return $this;
     }
 
-    public function removeRoute(Route $route): self
+    public function removeRide(Ride $ride): self
     {
-        if ($this->routes->removeElement($route)) {
+        if ($this->rides->removeElement($ride)) {
             // set the owning side to null (unless already changed)
-            if ($route->getFromPlace() === $this) {
-                $route->setFromPlace(null);
+            if ($ride->getFromPlace() === $this) {
+                $ride->setFromPlace(null);
             }
         }
 

@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\RouteRepository;
+use App\Repository\RideRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RouteRepository::class)]
-class Route
+#[ORM\Entity(repositoryClass: RideRepository::class)]
+class Ride
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -40,22 +40,22 @@ class Route
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $notes = null;
 
-    #[ORM\ManyToOne(inversedBy: 'route')]
+    #[ORM\ManyToOne(inversedBy: 'Ride')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'route', targetEntity: Reservation::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'Ride', targetEntity: Reservation::class, orphanRemoval: true)]
     private Collection $reservation;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Criteria $criteria = null;
 
-    #[ORM\ManyToOne(inversedBy: 'routes')]
+    #[ORM\ManyToOne(inversedBy: 'Rides')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Place $fromPlace = null;
 
-    #[ORM\ManyToOne(inversedBy: 'routes')]
+    #[ORM\ManyToOne(inversedBy: 'Rides')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Place $toPlace = null;
 
@@ -190,7 +190,7 @@ class Route
     {
         if (!$this->reservation->contains($reservation)) {
             $this->reservation->add($reservation);
-            $reservation->setRoute($this);
+            $reservation->setRide($this);
         }
 
         return $this;
@@ -200,8 +200,8 @@ class Route
     {
         if ($this->reservation->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getRoute() === $this) {
-                $reservation->setRoute(null);
+            if ($reservation->getRide() === $this) {
+                $reservation->setRide(null);
             }
         }
 

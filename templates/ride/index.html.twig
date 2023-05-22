@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ride index{% endblock %}
+
+{% block body %}
+    <h1>Ride index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>NbPlace</th>
+                <th>Price</th>
+                <th>ModelCar</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Notes</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ride in rides %}
+            <tr>
+                <td>{{ ride.id }}</td>
+                <td>{{ ride.departure ? ride.departure|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ride.arrival ? ride.arrival|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ride.nbPlace }}</td>
+                <td>{{ ride.price }}</td>
+                <td>{{ ride.modelCar }}</td>
+                <td>{{ ride.createdAt ? ride.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ride.updatedAt ? ride.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ ride.notes }}</td>
+                <td>
+                    <a href="{{ path('app_ride_show', {'id': ride.id}) }}">show</a>
+                    <a href="{{ path('app_ride_edit', {'id': ride.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ride_new') }}">Create new</a>
+{% endblock %}

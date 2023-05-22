@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ride{% endblock %}
+
+{% block body %}
+    <h1>Ride</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ride.id }}</td>
+            </tr>
+            <tr>
+                <th>Departure</th>
+                <td>{{ ride.departure ? ride.departure|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Arrival</th>
+                <td>{{ ride.arrival ? ride.arrival|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NbPlace</th>
+                <td>{{ ride.nbPlace }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ ride.price }}</td>
+            </tr>
+            <tr>
+                <th>ModelCar</th>
+                <td>{{ ride.modelCar }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ ride.createdAt ? ride.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ ride.updatedAt ? ride.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>{{ ride.notes }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ride_index') }}">back to list</a>
+
+    <a href="{{ path('app_ride_edit', {'id': ride.id}) }}">edit</a>
+
+    {{ include('ride/_delete_form.html.twig') }}
+{% endblock %}
