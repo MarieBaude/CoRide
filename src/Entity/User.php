@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -30,6 +32,18 @@ class User
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToMany(targetEntity: Message::class, inversedBy: 'users')]
+    private Collection $message;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Route::class)]
+    private Collection $route;
+
+    public function __construct()
+    {
+        $this->message = new ArrayCollection();
+        $this->route = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +118,60 @@ class User
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessage(): Collection
+    {
+        return $this->message;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->message->contains($message)) {
+            $this->message->add($message);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        $this->message->removeElement($message);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Route>
+     */
+    public function getRoute(): Collection
+    {
+        return $this->route;
+    }
+
+    public function addRoute(Route $route): self
+    {
+        if (!$this->route->contains($route)) {
+            $this->route->add($route);
+            $route->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoute(Route $route): self
+    {
+        if ($this->route->removeElement($route)) {
+            // set the owning side to null (unless already changed)
+            if ($route->getUser() === $this) {
+                $route->setUser(null);
+            }
+        }
 
         return $this;
     }
