@@ -39,10 +39,14 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Route::class)]
     private Collection $route;
 
+    #[ORM\ManyToMany(targetEntity: Reservation::class, inversedBy: 'users')]
+    private Collection $reservation;
+
     public function __construct()
     {
         $this->message = new ArrayCollection();
         $this->route = new ArrayCollection();
+        $this->reservation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,6 +176,30 @@ class User
                 $route->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservation(): Collection
+    {
+        return $this->reservation;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservation->contains($reservation)) {
+            $this->reservation->add($reservation);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        $this->reservation->removeElement($reservation);
 
         return $this;
     }
