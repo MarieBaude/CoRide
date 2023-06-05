@@ -11,6 +11,11 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        login:
+            pattern: ^/api/login
+            statless: true
+            provider: app_user_provider
+            json_login:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
