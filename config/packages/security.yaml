@@ -24,7 +24,9 @@ security:
                     lexik_jwt_authentication.handler.authentication_failure
             custom_authenticator: App\Security\UserAuthenticator
             logout:
-                path: app_logout
+                path: logout
+                target: login
+                invalidate_session: true
                 # where to redirect after logout
                 # target: app_any_route
         api:
