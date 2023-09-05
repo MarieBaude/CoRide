@@ -6,3 +6,9 @@ controllers:
 
 api_login_check:
     path: /api/login_check
+
+app_logout:
+    path: /logout
+    controller: App\Controller\LoginController::logout
+
+
